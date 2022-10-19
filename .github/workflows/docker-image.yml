@@ -17,7 +17,7 @@ jobs:
       run: echo ${{ secrets.DOCKER_TOKEN }} | docker login -u sharypoff --password-stdin
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build -t sharypoff/ls-2022-10-19:${GITHUB_REF:11} -f Dockerfile .
+      run: docker build -t shvmedia/ls-2022-10-19:${GITHUB_REF:11} -f Dockerfile .
     - name: Push image to docker
-      run: docker push sharypoff/ls-2022-10-19:${GITHUB_REF:11}
+      run: docker push shvmedia/ls-2022-10-19:${GITHUB_REF:11}
 
