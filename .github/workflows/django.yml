@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build_and_test:
 
     runs-on: ubuntu-latest
     strategy:
@@ -28,3 +28,15 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+  build_and_push:
+    needs: [build_and_test]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Login to docker
+      run: echo ${{ secrets.DOCKER_TOKEN }} | docker login -u shvmedia --password-stdin
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build -t shvmedia/ls-2022-10-19:${GITHUB_REF:11} -f Dockerfile .
+    - name: Push image to docker
+      run: docker push shvmedia/ls-2022-10-19:${GITHUB_REF:11}
